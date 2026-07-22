@@ -1,16 +1,43 @@
-# React + Vite
+# API — Animales del refugio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Alumno:** Iván Alejandro Paredes González  ·  **Sección:** C2
+**Tema:** Tema 16: Refugio de animales
 
-Currently, two official plugins are available:
+API asignada por el docente para la **Evaluación 3 (UA3)**. Tu frontend en React debe
+**consumir** esta API con `fetch` o `axios`, mostrando los estados de ⏳ carga, ✅ datos y ❌ error.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Endpoint
 
-## React Compiler
+- `GET /api/animales` → lista todos los registros (`{ total, animales: [...] }`)
+- `GET /api/animales/{id}` → un registro por id
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Cómo la usarás en el frontend
 
-## Expanding the Oxlint configuration
+GET /api/animales muestra los animales en adopción; el CRUD (LocalStorage) registra solicitudes de adopción.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+> Tu **CRUD con Local Storage** (Solicitudes de adopción) es lo que tú administras (crear/editar/eliminar).
+> La **API** entrega datos de referencia que muestras y usas para llenar los selectores del formulario.
+
+## Cómo correr la API
+
+```bash
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+Prueba: <http://127.0.0.1:8000/api/animales>  ·  Docs: <http://127.0.0.1:8000/docs>
+
+## Cómo consumirla desde React (ejemplo)
+
+```javascript
+useEffect(() => {
+  fetch("http://127.0.0.1:8000/api/animales")
+    .then((res) => {
+      if (!res.ok) throw new Error("Error " + res.status)
+      return res.json()
+    })
+    .then((data) => setDatos(data.animales))   // ✅ datos
+    .catch((err) => setError(err.message))        // ❌ error
+    .finally(() => setCargando(false))            // fin de ⏳ carga
+}, [])
+```
