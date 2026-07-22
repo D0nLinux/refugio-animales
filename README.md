@@ -41,3 +41,6 @@ useEffect(() => {
     .finally(() => setCargando(false))            // fin de ⏳ carga
 }, [])
 ```
+## Uso de IA
+
+> Se usó el chatbot ChatGPT como guía para el diseño de las rutas de los directorios del proyecto, además para redactar el estilo del sitio y la llamada a la API.
